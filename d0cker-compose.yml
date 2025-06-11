@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  strapi:
+    image: strapi/strapi
+    container_name: strapi-app
+    restart: always
+    ports:
+      - '1337:1337'
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: strapidb.cobc8gia80v9.us-east-1.rds.amazonaws.com
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapidb
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: strapi123
+      DATABASE_SSL: "true"
+      DATABASE_SSL_REJECT_UNAUTHORIZED: "false"
+      NODE_ENV: development
+    volumes:
+      - ./app:/srv/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1337/admin"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
